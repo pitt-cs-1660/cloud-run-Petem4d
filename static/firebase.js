@@ -116,11 +116,27 @@ async function vote(team) {
     // refresh the token and return a new one.
     try {
       const token = await createIdToken();
+      let formData = new FormData();
+      formData.append('team', team);
 
-      /*
-       * ++++ YOUR CODE HERE ++++
-       */
-      window.alert(`Not implemented yet!`);
+      let response = await fetch('/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': `Bearer ${token}`
+        },
+        body: new URLSearchParams({
+          'team': team,
+        }),
+      }).then((response) => {
+        if (response.ok) {
+          window.location.reload();
+        } else {
+          console.log(`failure logging vote`);
+        }
+      });
+
+
 
     } catch (err) {
       console.log(`Error when submitting vote: ${err}`);
